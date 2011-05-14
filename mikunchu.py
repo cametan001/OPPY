@@ -47,6 +47,8 @@ class MikunchApp:
         if self.chkMikutube.get_active:
             # みくかべ♪インストールコマンドを実行
             [self.execCommand(cmd) for cmd in installCommands[1]]
+        # configpath = os.path.espanduser("~") + "/.config/audacious/config"
+        # self.editConfig("skin = ", "skin = /usr/share/audacious/Skins/Default", configpath)
         # ウィンドウを閉じてアプリケーションを終了する
         gtk.main_quit()
 
@@ -59,6 +61,16 @@ class MikunchApp:
         ret = commands.getoutput(command)
         print ret                       # 実行結果のデバッグ用プリント
         return ret
+
+    # 設定ファイルの書き換え
+    def editConfig(self, keyword, replaceString, configPath):
+        f = open(configPath)
+        cnf = [txt.strip().find(keyword) >= 0 and replaceString + "\n" or \
+               txt for txt in f]
+        f.close()
+        fw = open(configPath, "w")
+        fw.writelines(cnf)
+        fw.close()
 
 if __name__ == "__main__":
     MikunchApp()
