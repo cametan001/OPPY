@@ -3,7 +3,7 @@
 
 import sys, os, os.path, pygtk, gtk, glib
 
-imgs = tuple(["img/miku_%d.png" % (i + 1) for i in range(39)])
+imgs = ["img/miku-%d.png" % (i + 1) for i in range(39)]
 
 class Kadai2:
     def __init__(self):
@@ -16,12 +16,12 @@ class Kadai2:
 
         self.mainWindow = self.wTree.get_object('TopLevel')
         self.mainWindow.show_all()
-        # self.timeout = glib.timeout_add_seconds(2, self._timeout, self)
+        self.timeout = glib.timeout_add_seconds(1, self._timeout, self)
 
     def _timeout(self, event):
-        self.image = gtk.Image()
-        pixbuf = gtk.gdk.pixbus_nwe_from_file(os.path.join(os.path.dirname(__file__), img.pop(0)))
-        self.image.set_from_pixbuf(pixbuf)
+        self.slide = self.wTree.get_object('Slide')
+        pixbuf = gtk.gdk.pixbuf_new_from_file(os.path.join(os.path.dirname(__file__), imgs.pop(0)))
+        self.slide.set_from_pixbuf(pixbuf)
         return True
 
     def on_TopLevel_destroy(self, widget):
